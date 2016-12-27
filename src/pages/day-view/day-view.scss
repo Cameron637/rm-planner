@@ -1,0 +1,31 @@
+page-day-view {
+    ion-header {
+        .item-ios, .item-md, .item-wp {
+            background-color: transparent;
+
+            .label-wp {
+                text-align: right;
+            }
+        }
+    }
+
+    ion-content {
+        .list-ios, .list-md, .list-wp {
+            margin-bottom: 0;
+
+            .item-ios, .item-md, .item-wp {
+                padding-left: 0;
+
+                .label-ios, .label-md, .label-wp {
+                    padding-left: 1rem;
+                    text-align: right;
+                    width: 5.3rem;
+                }
+
+                .input-ios, .input-md {
+                    border-left: 0.1rem solid #dedede;
+                }
+            }
+        }
+    }
+}
