@@ -7,5 +7,5 @@ import { NavController, NavParams } from "ionic-angular";
 })
 
 export class WeekViewPage {
-  constructor(public navCtrl: NavController, public navParams: NavParams) { }
+  constructor(public navCtrl: NavController, public params: NavParams) { }
 }

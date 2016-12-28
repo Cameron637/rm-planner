@@ -1,11 +1,19 @@
 page-day-view {
     ion-header {
+        ion-navbar.toolbar-ios, ion-navbar.toolbar-md, ion-navbar.toolbar-wp {
+            display: none;
+        }
+
         .item-ios, .item-md, .item-wp {
             background-color: transparent;
 
             .label-wp {
                 text-align: right;
             }
+        }
+
+        .item-ios {
+            padding-top: 2rem;
         }
     }
 
