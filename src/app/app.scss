@@ -15,6 +15,19 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+@media(min-width: 1024px) {
+    .ion-page {
+        bottom: 0;
+        box-shadow: 0 0.8rem 2.4rem rgba(0,0,0,.08), 0 0rem 0.6rem rgba(0,0,0,.1);
+        left: 0;
+        margin: auto;
+        max-height: 128rem;
+        max-width: 102.4rem;
+        right: 0;
+        top: 0;
+    }
+}
+
 ion-header {
     .title-ios, .title-md, .title-wp {
         display: none;
