@@ -16,6 +16,10 @@
 // automatically applied to the <body> element in the app.
 
 @media(min-width: 1024px) {
+    ion-app.md {
+        background-color: #f8f9fb;
+    }
+
     .ion-page {
         bottom: 0;
         box-shadow: 0 0.8rem 2.4rem rgba(0,0,0,.08), 0 0rem 0.6rem rgba(0,0,0,.1);
