@@ -1,9 +1,72 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Weekly Goals</ion-title>
+  <ion-navbar [ngSwitch]="list">
+    <ion-title *ngSwitchCase="'goals'">Goals</ion-title>
+    <ion-title *ngSwitchCase="'layout'">Weekly Layout</ion-title>
   </ion-navbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="list" (ionChange)="goToList()">
+      <ion-segment-button value="goals">Goals</ion-segment-button>
+      <ion-segment-button value="layout">Weekly Layout</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content [ngSwitch]="list">
+  <ion-list *ngSwitchCase="'goals'" class="goals">
+    <ion-list-header>
+      Week of {{beginWeek}} to {{endWeek}}
+      <button *ngIf="!modify" ion-button icon-only clear item-right (click)="moreOptions()">
+        <ion-icon name="more"></ion-icon>
+      </button>
+      <button *ngIf="modify" ion-button icon-only clear item-right (click)="toggleModify()">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </ion-list-header>
+    <ion-item-group *ngFor="let category of categories">
+      <ion-item-divider>
+        <button *ngIf="modify" ion-button icon-only clear item-left>
+          <ion-icon name="remove-circle"></ion-icon>
+        </button>
+        <ion-input item-left value="{{category.name}}" placeholder="New..." [disabled]="category.name ? true : false" (blur)="updateName($event.target.value, category)"></ion-input>
+        <ion-input item-right value="Goal" [disabled]="true"></ion-input>
+        <ion-input item-right value="Actual" [disabled]="true"></ion-input>
+      </ion-item-divider>
+      <ion-item *ngFor="let item of category.items">
+        <button *ngIf="modify" ion-button icon-only clear item-left>
+          <ion-icon name="remove-circle"></ion-icon>
+        </button>
+        <ion-input item-left value="{{item.name}}" placeholder="New..." [disabled]="item.name ? true : false" (blur)="updateName($event.target.value, item)"></ion-input>
+        <ion-input item-right value="{{item.goal}}" placeholder="0" [disabled]="item.goal ? true : false" (blur)="updateGoal($event.target.value, item)"></ion-input>
+        <ion-input item-right value="{{item.actual}}" placeholder="0" (blur)="updateActual($event.target.value, item)"></ion-input>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+  <ion-list *ngSwitchCase="'layout'">
+    <ion-list-header>Week of {{beginWeek}} to {{endWeek}}</ion-list-header>
+    <ion-item *ngFor="let day of daysOfWeek">
+      <ion-label stacked>{{day.name}}, {{day.date}}</ion-label>
+      <ion-textarea value="{{day.notes}}" (blur)="updateWeekDay($event.target.value, day)"></ion-textarea>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <button ion-button large (click)="openPage(dayView)" class="disable-hover">
+    <div>
+      <ion-icon name="list-box"></ion-icon>
+      <ion-label>Day View</ion-label>
+    </div>
+  </button>
+  <button ion-button large class="active disable-hover">
+    <div>
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label>Week View</ion-label>
+    </div>
+  </button>
+  <button ion-button large (click)="openPage(notesView)" class="disable-hover">
+    <div>
+      <ion-icon name="create"></ion-icon>
+      <ion-label>Notes/To-Do</ion-label>
+    </div>
+  </button>
+</ion-footer>

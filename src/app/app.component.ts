@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Platform } from "ionic-angular";
 import { StatusBar, Splashscreen } from "ionic-native";
-import { TabsPage } from "../pages/tabs/tabs";
+import { DayViewPage } from "../pages/day-view/day-view";
 import moment from "moment";
 
 @Component({
@@ -9,11 +9,10 @@ import moment from "moment";
 })
 
 export class MyApp {
-  rootPage = TabsPage;
+  rootPage = DayViewPage;
   defaultParams = {
     currentDate: moment().format("YYYY-MM-DD"),
-    list: "daily",
-    tab: "day"
+    list: "daily"
   };
 
   constructor(public platform: Platform) {

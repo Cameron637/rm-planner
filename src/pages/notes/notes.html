@@ -1,9 +1,37 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Notes</ion-title>
+  <ion-navbar [ngSwitch]="list">
+    <ion-title *ngSwitchCase="'notes'">Notes</ion-title>
+    <ion-title *ngSwitchCase="'to-do'">To-Do List</ion-title>
   </ion-navbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="list" (ionChange)="goToList()">
+      <ion-segment-button value="notes">Notes</ion-segment-button>
+      <ion-segment-button value="to-do">To-Do List</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
 </ion-content>
+
+<ion-footer>
+  <button ion-button large (click)="openPage(dayView)" class="disable-hover">
+    <div>
+      <ion-icon name="list-box"></ion-icon>
+      <ion-label>Day View</ion-label>
+    </div>
+  </button>
+  <button ion-button large (click)="openPage(weekView)" class="disable-hover">
+    <div>
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label>Week View</ion-label>
+    </div>
+  </button>
+  <button ion-button large class="active disable-hover">
+    <div>
+      <ion-icon name="create"></ion-icon>
+      <ion-label>Notes/To-Do</ion-label>
+    </div>
+  </button>
+</ion-footer>

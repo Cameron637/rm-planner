@@ -1,13 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Plans</ion-title>
-  </ion-navbar>
-  <ion-toolbar>
     <ion-item>
+      <ion-title>Plans</ion-title>
       <ion-label>Date:</ion-label>
-      <ion-datetime displayFormat="DDDD, MMMM D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" max="{{max}}" (ionChange)="goToList()"></ion-datetime>
+      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" max="{{max}}" (ionChange)="goToList()"></ion-datetime>
     </ion-item>
-  </ion-toolbar>
+  </ion-navbar>
   <ion-toolbar>
     <ion-segment [(ngModel)]="list" (ionChange)="goToList()">
       <ion-segment-button value="daily">Daily Plans</ion-segment-button>
@@ -30,3 +28,24 @@
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+  <button ion-button large class="active disable-hover">
+    <div>
+      <ion-icon name="list-box"></ion-icon>
+      <ion-label>Day View</ion-label>
+    </div>
+  </button>
+  <button ion-button large (click)="openPage(weekView)" class="disable-hover">
+    <div>
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label>Week View</ion-label>
+    </div>
+  </button>
+  <button ion-button large (click)="openPage(notesView)" class="disable-hover">
+    <div>
+      <ion-icon name="create"></ion-icon>
+      <ion-label>Notes/To-Do</ion-label>
+    </div>
+  </button>
+</ion-footer>

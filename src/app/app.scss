@@ -14,3 +14,37 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+ion-footer {
+    display: flex;
+    justify-content: space-around;
+
+    .button-ios, .button-md, .button-wp {
+        background-color: transparent;
+        border-radius: 0;
+        box-shadow: none;
+        color: color($colors, primary);
+        margin: 0;
+        width: 100%;
+
+        .icon-ios, .icon-md, .icon-wp {
+            font-size: 3rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .label-ios, .label-md, .label-wp {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        & + .button-ios, & + .button-md, & + .button-wp {
+            border-left: 0.1rem solid #dedede;
+        }
+
+        &.active {
+            background-color: color($colors, primary);
+            color: #fff;
+            cursor: default;
+        }
+    }
+}

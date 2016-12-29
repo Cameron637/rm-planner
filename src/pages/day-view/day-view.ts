@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
 import { Storage } from "@ionic/storage";
 import { NavController, NavParams } from "ionic-angular";
-import { TabsPage } from "../tabs/tabs";
+import { WeekViewPage } from "../week-view/week-view";
+import { NotesPage } from "../notes/notes";
 import moment from "moment";
 
 @Component({
@@ -10,11 +11,13 @@ import moment from "moment";
 })
 
 export class DayViewPage {
-  currentDate = this.params.get("currentDate");
-  list = this.params.get("list");
+  currentDate = this.params.get("currentDate") || /\d{4}-(1[0-2]|0[1-9])-([0-2][[1-9]|3[0-1])/.exec(location.hash) || moment().format("YYYY-MM-DD");
+  list = this.params.get("list") || /(daily|backup)/.exec(location.hash) || "daily";
   max = moment().add(100, "y").format("YYYY");
   dailyPlans = [];
   backupPlans = [];
+  weekView = WeekViewPage;
+  notesView = NotesPage;
 
   constructor(public navCtrl: NavController, public params: NavParams, public storage: Storage) {
     let hour = moment().startOf("d").add(6, "h");
@@ -54,10 +57,19 @@ export class DayViewPage {
   }
 
   goToList() {
-    this.navCtrl.push(TabsPage, {
-      tab: "day",
+    this.navCtrl.setRoot(DayViewPage, {
       currentDate: this.currentDate,
       list: this.list
-    });
+    }, {
+        animate: false
+      });
+  }
+
+  openPage(page) {
+    this.navCtrl.setRoot(page, {
+      currentDate: this.currentDate
+    }, {
+        animate: false
+      });
   }
 }
