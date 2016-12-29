@@ -15,36 +15,120 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+ion-header {
+    .title-ios, .title-md, .title-wp {
+        display: none;
+    }
+
+    .item-ios, .item-md, .item-wp {
+        background-color: transparent;
+
+        .label-wp {
+            text-align: right;
+        }
+    }
+}
+
 ion-footer {
     display: flex;
     justify-content: space-around;
 
     .button-ios, .button-md, .button-wp {
-        background-color: transparent;
+        background-color: #f8f8f8;
         border-radius: 0;
         box-shadow: none;
-        color: color($colors, primary);
         margin: 0;
         width: 100%;
 
-        .icon-ios, .icon-md, .icon-wp {
-            font-size: 3rem;
-            padding-bottom: 0.5rem;
-        }
-
         .label-ios, .label-md, .label-wp {
-            font-size: 1.2rem;
             margin: 0;
         }
 
-        & + .button-ios, & + .button-md, & + .button-wp {
-            border-left: 0.1rem solid #dedede;
+        &.active {
+            color: color($colors, primary);
+            cursor: default;
+        }
+
+        &.activated {
+            background-color: #f8f8f8;
+        }
+    }
+
+    .button-ios {
+        border-top: $hairlines-width solid $tabs-ios-border-color;
+        color: $tabs-ios-tab-color-inactive;
+        font-size: 1rem;
+        padding: 0 0.2rem;
+        max-width: 24rem;
+        min-height: 4.9rem;
+
+        .icon-ios {
+            font-size: 3rem;
         }
 
         &.active {
-            background-color: color($colors, primary);
-            color: #fff;
-            cursor: default;
+            color: $tabs-ios-tab-color-active;
+        }
+    }
+
+    .button-md {
+        color: rgba($tabs-md-tab-color-inactive, $tabs-md-tab-opacity);
+        font-size: 1.2rem;
+        font-weight: normal;
+        min-height: 5.6rem;
+        opacity: 0.7;
+        padding: 0;
+
+        .label-md {
+            margin: 0;
+            text-transform: none;
+            transform-origin: 50% 80%;
+            transition: transform .3s ease-in-out;
+        }
+
+        .icon-md {
+            font-size: 2.4rem;
+            transform-origin: 50% 150%;
+            transition: transform .3s ease-in-out;
+        }
+
+        &.active {
+            color: $tabs-md-tab-color-active;
+            font-size: 1.4rem;
+            opacity: 1;
+
+            .label-md {
+                transform: scale3d($tabs-md-tab-font-size-active / $tabs-md-tab-font-size, $tabs-md-tab-font-size-active / $tabs-md-tab-font-size, 1);
+            }
+
+            .icon-md {
+                transform: translate3d(0, -0.2rem, 0);
+            }
+        }
+    }
+
+    .button-wp {
+        border: none;
+        border-top: 0.2rem solid $tabs-wp-border-color;
+        color: rgba($tabs-wp-tab-color-inactive, $tabs-wp-tab-opacity);
+        font-size: 1.2rem;
+        font-weight: normal;
+        min-height: 4.8rem;
+        opacity: 0.7;
+        padding: 0.5rem 1rem 1.2rem 1rem;
+
+        .icon-wp {
+            font-size: 2.4rem;
+        }
+
+        &.active {
+            border-color: $tabs-wp-tab-color-active;
+            color: $tabs-wp-tab-color-active;
+            opacity: 1;
+        }
+
+        &.activated {
+            background-color: rgba(0, 0, 0, 0.1);
         }
     }
 }

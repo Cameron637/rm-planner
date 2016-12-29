@@ -1,22 +1,4 @@
 page-day-view {
-    ion-header {
-        .title-ios, .title-md, .title-wp {
-            display: none;
-        }
-
-        .item-ios, .item-md, .item-wp {
-            background-color: transparent;
-
-            .label-wp {
-                text-align: right;
-            }
-        }
-
-        .item-ios {
-            padding-top: 2rem;
-        }
-    }
-
     ion-content {
         .list-ios, .list-md, .list-wp {
             margin-bottom: 0;

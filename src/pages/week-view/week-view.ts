@@ -13,6 +13,7 @@ import moment from "moment";
 export class WeekViewPage {
   currentDate = this.params.get("currentDate") || /\d{4}-(1[0-2]|0[1-9])-([0-2][[1-9]|3[0-1])/.exec(location.hash) || moment().format("YYYY-MM-DD");
   list = this.params.get("list") || /(goals|layout)/.exec(location.hash) || "goals";
+  max = moment().add(100, "y").format("YYYY");
   beginWeek = moment(this.currentDate).startOf("w").format("MMM. D, YYYY");
   endWeek = moment(this.currentDate).endOf("w").format("MMM. D, YYYY");
   storageId = this.beginWeek.replace(/(\. |, | )/g, "-").toLowerCase();
@@ -23,131 +24,90 @@ export class WeekViewPage {
   daysOfWeek;
 
   constructor(public navCtrl: NavController, public params: NavParams, public storage: Storage, public actionSheetCtrl: ActionSheetController) {
-    this.storage.get(`categories-${this.storageId}`)
-      .then(categories => {
-        this.categories = categories || [
-          {
-            name: "Spiritual Goals",
-            items: [
-              {
-                actual: "",
-                name: "",
-                goal: ""
-              },
-              {
-                actual: "",
-                name: "",
-                goal: ""
-              }
-            ]
-          },
-          {
-            name: "Educational Goals",
-            items: [
-              {
-                actual: "",
-                name: "",
-                goal: ""
-              }
-            ]
-          },
-          {
-            name: "Exercise Goals",
-            items: [
-              {
-                actual: "",
-                name: "",
-                goal: ""
-              }
-            ]
-          },
-          {
-            name: "Career Goals",
-            items: [
-              {
-                actual: "",
-                name: "",
-                goal: ""
-              }
-            ]
-          },
-          {
-            name: "Other Goals",
-            items: [
-              {
-                actual: "",
-                name: "",
-                goal: ""
-              },
-              {
-                actual: "",
-                name: "",
-                goal: ""
-              },
-              {
-                actual: "",
-                name: "",
-                goal: ""
-              }
-            ]
-          }
-        ];
-
-        this.updateCategories();
-      });
-
-    this.storage.get(`layout-${this.storageId}`)
-      .then(days => {
-        if (days) {
-          this.daysOfWeek = days;
-        } else {
-          this.daysOfWeek = [
+    if (this.list === "goals") {
+      this.storage.get(`categories-${this.storageId}`)
+        .then(categories => {
+          this.categories = categories || [
             {
-              name: "Sunday",
-              date: "",
-              notes: ""
+              name: "Spiritual Goals",
+              items: []
             },
             {
-              name: "Monday",
-              date: "",
-              notes: ""
+              name: "Educational Goals",
+              items: []
             },
             {
-              name: "Tuesday",
-              date: "",
-              notes: ""
+              name: "Exercise Goals",
+              items: []
             },
             {
-              name: "Wednesday",
-              date: "",
-              notes: ""
+              name: "Career Goals",
+              items: []
             },
             {
-              name: "Thursday",
-              date: "",
-              notes: ""
-            },
-            {
-              name: "Friday",
-              date: "",
-              notes: ""
-            },
-            {
-              name: "Saturday",
-              date: "",
-              notes: ""
+              name: "Other Goals",
+              items: []
             }
           ];
 
-          let startDay = moment(this.beginWeek).subtract(1, "d");
+          this.updateCategories();
+        });
+    }
 
-          this.daysOfWeek.forEach(day => {
-            day.date = startDay.add(1, "d").format("MMM. D, YYYY");
-          });
+    if (this.list === "layout") {
+      this.storage.get(`layout-${this.storageId}`)
+        .then(days => {
+          if (days) {
+            this.daysOfWeek = days;
+          } else {
+            this.daysOfWeek = [
+              {
+                name: "Sunday",
+                date: "",
+                notes: ""
+              },
+              {
+                name: "Monday",
+                date: "",
+                notes: ""
+              },
+              {
+                name: "Tuesday",
+                date: "",
+                notes: ""
+              },
+              {
+                name: "Wednesday",
+                date: "",
+                notes: ""
+              },
+              {
+                name: "Thursday",
+                date: "",
+                notes: ""
+              },
+              {
+                name: "Friday",
+                date: "",
+                notes: ""
+              },
+              {
+                name: "Saturday",
+                date: "",
+                notes: ""
+              }
+            ];
 
-          this.updateDaysOfWeek();
-        }
-      })
+            let startDay = moment(this.beginWeek).subtract(1, "d");
+
+            this.daysOfWeek.forEach(day => {
+              day.date = startDay.add(1, "d").format("MMM. D, YYYY");
+            });
+
+            this.updateDaysOfWeek();
+          }
+        });
+    }
   }
 
   goToList() {
@@ -172,16 +132,18 @@ export class WeekViewPage {
   }
 
   deleteCategory(category) {
-    this.categories.splice(this.categories.findIndex((element, index, array) => {
-      JSON.stringify(element) === JSON.stringify(category);
+    this.categories.splice(this.categories.findIndex(element => {
+      return JSON.stringify(element) === JSON.stringify(category);
     }), 1);
+
     this.updateCategories();
   }
 
   deleteItem(category, item) {
-    category.items.splice(category.items.findIndex((element, index, array) => {
-      JSON.stringify(element) === JSON.stringify(item);
+    category.items.splice(category.items.findIndex(element => {
+      return JSON.stringify(element) === JSON.stringify(item);
     }), 1);
+
     this.updateCategories();
   }
 

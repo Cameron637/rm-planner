@@ -1,3 +1,16 @@
 page-notes {
+    ion-content {
+        textarea.text-input-ios, textarea.text-input-md, textarea.text-input-wp {
+            height: 100vh;
+            width: 100vw;
+        }
 
+        textarea.text-input-ios {
+            margin-left: 1rem;
+        }
+
+        textarea.text-input-wp {
+            max-width: calc(100% - 2rem);
+        }
+    }
 }

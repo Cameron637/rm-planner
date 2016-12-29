@@ -1,15 +1,17 @@
 <ion-header>
-  <ion-navbar [ngSwitch]="list">
-    <ion-title *ngSwitchCase="'goals'" class="goals">
-      <div>Goals</div>
-      <button *ngIf="!modify" ion-button icon-only clear (click)="moreOptions()">
+  <ion-navbar>
+    <ion-item [ngSwitch]="list">
+      <ion-title *ngSwitchCase="'goals'">Goals</ion-title>
+      <ion-title *ngSwitchCase="'layout'">Weekly Layout</ion-title>
+      <ion-label>Date:</ion-label>
+      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" max="{{max}}" (ionChange)="goToList()"></ion-datetime>
+      <button *ngIf="!modify" ion-button icon-only clear item-right (click)="moreOptions()">
         <ion-icon name="more"></ion-icon>
       </button>
-      <button *ngIf="modify" ion-button icon-only clear (click)="toggleModify()">
+      <button *ngIf="modify" ion-button icon-only clear item-right (click)="toggleModify()">
         <ion-icon name="close"></ion-icon>
       </button>
-    </ion-title>
-    <ion-title *ngSwitchCase="'layout'">Weekly Layout</ion-title>
+    </ion-item>
   </ion-navbar>
   <ion-toolbar>
     <ion-segment [(ngModel)]="list" (ionChange)="goToList()">

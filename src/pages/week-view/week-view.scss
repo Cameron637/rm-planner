@@ -1,24 +1,7 @@
 page-week-view {
     ion-header {
-        .goals {
-            &.title-ios {
-                padding: 0 2rem;
-            }
-
-            .toolbar-title-ios, .toolbar-title-md, .toolbar-title-wp {
-                align-items: center;
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .toolbar-title-ios {
-                justify-content: center;
-
-                button {
-                    right: 0;
-                    position: absolute;
-                }
-            }
+        .item-ios .item-button, .item-md .item-button, .item-wp .item-button {
+            margin-left: 2rem;
         }
     }
 
