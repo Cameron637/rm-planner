@@ -4,7 +4,7 @@
       <ion-title *ngSwitchCase="'notes'">Notes</ion-title>
       <ion-title *ngSwitchCase="'to-do'">To-Do List</ion-title>
       <ion-label>Date:</ion-label>
-      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" max="{{max}}" (ionChange)="goToList()"></ion-datetime>
+      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" min="{{min}}" max="{{max}}" (ionChange)="goToList()"></ion-datetime>
     </ion-item>
   </ion-navbar>
   <ion-toolbar>
@@ -17,15 +17,16 @@
 
 <ion-content [ngSwitch]="list">
   <ion-textarea *ngSwitchCase="'notes'" value="{{notes}}" (blur)="updateNotes($event.target.value)"></ion-textarea>
-  <ion-list *ngSwitchCase="'to-do'">
+  <ion-list *ngSwitchCase="'to-do'" reorder="true" (ionItemReorder)="reorderItems($event)">
     <ion-item *ngFor="let item of toDoList">
-      <ion-checkbox *ngIf="item.name" item-left checked="{{item.done}}" (ionChange)="toggleItemDone(item)"></ion-checkbox>
-      <ion-input value="{{item.name}}" placeholder="New..." [disabled]="item.name ? true : false" (blur)="updateItemName($event.target.value, item)"></ion-input>
+      <ion-checkbox item-left *ngIf="item.name" checked="{{item.done}}" (ionChange)="toggleItemDone(item)"></ion-checkbox>
+      <ion-label *ngIf="item.name">{{item.name}}</ion-label>
+      <ion-input *ngIf="!item.name" placeholder="New..." (blur)="updateItemName($event.target.value, item)"></ion-input>
       <button ion-button icon-only clear item-right (click)="removeItem(item)">
-        <ion-icon name="close" color="dark"></ion-icon>
+        <ion-icon name="close"></ion-icon>
       </button>
     </ion-item>
-    <ion-item>
+    <ion-item class="add-button">
       <button ion-button icon-only clear item-right (click)="addItem()">
         <ion-icon name="add-circle"></ion-icon>
       </button>

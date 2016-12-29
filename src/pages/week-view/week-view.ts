@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Storage } from "@ionic/storage";
-import { NavController, NavParams, ActionSheetController } from "ionic-angular";
+import { NavController, NavParams } from "ionic-angular";
 import { DayViewPage } from "../day-view/day-view";
 import { NotesPage } from "../notes/notes";
 import moment from "moment";
@@ -13,44 +13,49 @@ import moment from "moment";
 export class WeekViewPage {
   currentDate = this.params.get("currentDate") || /\d{4}-(1[0-2]|0[1-9])-([0-2][[1-9]|3[0-1])/.exec(location.hash) || moment().format("YYYY-MM-DD");
   list = this.params.get("list") || /(goals|layout)/.exec(location.hash) || "goals";
-  max = moment().add(100, "y").format("YYYY");
+  min = moment().subtract(6, "w").startOf("w").format("YYYY-MM-DD");
+  max = moment().add(6, "w").endOf("w").format("YYYY-MM-DD");
   beginWeek = moment(this.currentDate).startOf("w").format("MMM. D, YYYY");
   endWeek = moment(this.currentDate).endOf("w").format("MMM. D, YYYY");
   storageId = this.beginWeek.replace(/(\. |, | )/g, "-").toLowerCase();
   dayView = DayViewPage;
   notesView = NotesPage;
-  modify = false;
   categories;
   daysOfWeek;
 
-  constructor(public navCtrl: NavController, public params: NavParams, public storage: Storage, public actionSheetCtrl: ActionSheetController) {
+  constructor(public navCtrl: NavController, public params: NavParams, public storage: Storage) {
     if (this.list === "goals") {
       this.storage.get(`categories-${this.storageId}`)
         .then(categories => {
           this.categories = categories || [
             {
               name: "Spiritual Goals",
+              remaining: 0,
               items: []
             },
             {
               name: "Educational Goals",
+              remaining: 0,
               items: []
             },
             {
               name: "Exercise Goals",
+              remaining: 0,
               items: []
             },
             {
               name: "Career Goals",
+              remaining: 0,
               items: []
             },
             {
               name: "Other Goals",
+              remaining: 0,
               items: []
             }
           ];
 
-          this.updateCategories();
+          this.saveCategories();
         });
     }
 
@@ -104,7 +109,7 @@ export class WeekViewPage {
               day.date = startDay.add(1, "d").format("MMM. D, YYYY");
             });
 
-            this.updateDaysOfWeek();
+            this.saveDaysOfWeek();
           }
         });
     }
@@ -127,119 +132,67 @@ export class WeekViewPage {
       });
   }
 
-  toggleModify() {
-    this.modify = !this.modify;
-  }
-
-  deleteCategory(category) {
+  removeCategory(category) {
     this.categories.splice(this.categories.findIndex(element => {
       return JSON.stringify(element) === JSON.stringify(category);
     }), 1);
 
-    this.updateCategories();
+    this.saveCategories();
   }
 
-  deleteItem(category, item) {
+  removeItem(category, item) {
+    if (!item.done) {
+      --category.remaining;
+    }
+
     category.items.splice(category.items.findIndex(element => {
       return JSON.stringify(element) === JSON.stringify(item);
     }), 1);
 
-    this.updateCategories();
+    this.saveCategories();
+  }
+
+  addCategory() {
+    this.categories.push({
+      name: "",
+      remaining: 0,
+      items: []
+    });
+
+    this.saveCategories();
+  }
+
+  addItem(category) {
+    category.items.push({
+      done: false,
+      name: ""
+    });
+
+    ++category.remaining;
+    this.saveCategories();
   }
 
   updateName(name, object) {
     object.name = name;
-    this.updateCategories();
+    this.saveCategories();
   }
 
-  updateGoal(goal, item) {
-    item.goal = goal;
-    this.updateCategories();
+  toggleItemDone(item, category) {
+    item.done = !item.done;
+    item.done ? --category.remaining : ++category.remaining;
+    this.saveCategories();
   }
 
-  updateActual(actual, item) {
-    item.actual = actual;
-    this.updateCategories();
-  }
-
-  updateCategories() {
+  saveCategories() {
     this.storage.set(`categories-${this.storageId}`, this.categories);
   }
 
-  updateDaysOfWeek() {
+  saveDaysOfWeek() {
     this.storage.set(`layout-${this.storageId}`, this.daysOfWeek);
   }
 
   updateWeekDay(notes, day) {
     day.notes = notes;
-    this.updateDaysOfWeek();
-  }
-
-  moreOptions() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: "Modify Categories/Goals",
-      buttons: [
-        {
-          role: "destructive",
-          text: "Delete Categories/Goals",
-          handler: () => {
-            this.toggleModify();
-          }
-        },
-        {
-          text: "Add Category",
-          handler: () => {
-            this.categories.push({
-              name: "",
-              items: []
-            });
-          }
-        },
-        {
-          text: "Add Goal",
-          handler: () => {
-            let buttons = [];
-            let newActionSheet;
-
-            this.categories.forEach(category => {
-              if (category.name) {
-                buttons.push({
-                  text: category.name,
-                  handler: () => {
-                    category.items.push({
-                      actual: "",
-                      name: "",
-                      goal: ""
-                    });
-                  }
-                });
-              }
-            });
-
-            buttons.push({
-              role: "cancel",
-              text: "Cancel",
-              handler: () => {
-              }
-            });
-
-            newActionSheet = this.actionSheetCtrl.create({
-              title: "Select a Category",
-              buttons: buttons
-            });
-
-            newActionSheet.present();
-          }
-        },
-        {
-          role: "cancel",
-          text: "Cancel",
-          handler: () => {
-          }
-        }
-      ]
-    });
-
-    actionSheet.present();
+    this.saveDaysOfWeek();
   }
 }

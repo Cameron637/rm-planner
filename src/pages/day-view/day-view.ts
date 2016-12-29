@@ -13,7 +13,8 @@ import moment from "moment";
 export class DayViewPage {
   currentDate = this.params.get("currentDate") || /\d{4}-(1[0-2]|0[1-9])-([0-2][[1-9]|3[0-1])/.exec(location.hash) || moment().format("YYYY-MM-DD");
   list = this.params.get("list") || /(daily|backup)/.exec(location.hash) || "daily";
-  max = moment().add(100, "y").format("YYYY");
+  min = moment().subtract(6, "w").startOf("w").format("YYYY-MM-DD");
+  max = moment().add(6, "w").endOf("w").format("YYYY-MM-DD");
   dailyPlans = [];
   backupPlans = [];
   weekView = WeekViewPage;
@@ -25,35 +26,29 @@ export class DayViewPage {
     for (let i = 0; i < 27; ++i) {
       let plan = {
         hour: i < 3 ? hour.add(1, "h").format("h:mm") : hour.add(30, "m").format("h:mm"),
-        id: `${hour.format("h:mm")}`,
+        key: `${this.list}-${this.currentDate}-${hour.format("h:mm")}`,
         value: ""
       };
 
-      this.dailyPlans.push(plan);
-      this.backupPlans.push(Object.assign({}, plan));
+      this.list === "daily" ? this.dailyPlans.push(plan) : this.backupPlans.push(plan);
     }
 
     this.getPlans();
   }
 
   getPlans() {
-    this.dailyPlans.forEach(plan => {
-      this.storage.get(`daily-${this.currentDate}-${plan.id}`)
-        .then(value => {
-          plan.value = value;
-        });
-    });
+    let plansList = this.list === "daily" ? this.dailyPlans : this.backupPlans;
 
-    this.backupPlans.forEach(plan => {
-      this.storage.get(`backup-${this.currentDate}-${plan.id}`)
+    plansList.forEach(plan => {
+      this.storage.get(plan.key)
         .then(value => {
           plan.value = value;
         });
     });
   }
 
-  savePlans(target) {
-    this.storage.set(target.parentNode.id, target.value);
+  savePlans(value, key) {
+    this.storage.set(key, value);
   }
 
   goToList() {

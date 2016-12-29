@@ -3,7 +3,7 @@
     <ion-item>
       <ion-title>Plans</ion-title>
       <ion-label>Date:</ion-label>
-      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" max="{{max}}" (ionChange)="goToList()"></ion-datetime>
+      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" min="{{min}}" max="{{max}}" (ionChange)="goToList()"></ion-datetime>
     </ion-item>
   </ion-navbar>
   <ion-toolbar>
@@ -18,13 +18,13 @@
   <ion-list *ngSwitchCase="'daily'">
     <ion-item *ngFor="let plan of dailyPlans">
       <ion-label>{{plan.hour}}</ion-label>
-      <ion-input (blur)="savePlans($event.target)" id="daily-{{currentDate}}-{{plan.id}}" value="{{plan.value}}"></ion-input>
+      <ion-input (blur)="savePlans($event.target.value, plan.key)" value="{{plan.value}}"></ion-input>
     </ion-item>
   </ion-list>
   <ion-list *ngSwitchCase="'backup'">
     <ion-item *ngFor="let plan of backupPlans">
       <ion-label>{{plan.hour}}</ion-label>
-      <ion-input (blur)="savePlans($event.target)" id="backup-{{currentDate}}-{{plan.id}}" value="{{plan.value}}"></ion-input>
+      <ion-input (blur)="savePlans($event.target.value, plan.key)" value="{{plan.value}}"></ion-input>
     </ion-item>
   </ion-list>
 </ion-content>

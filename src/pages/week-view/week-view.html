@@ -4,13 +4,8 @@
       <ion-title *ngSwitchCase="'goals'">Goals</ion-title>
       <ion-title *ngSwitchCase="'layout'">Weekly Layout</ion-title>
       <ion-label>Date:</ion-label>
-      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" max="{{max}}" (ionChange)="goToList()"></ion-datetime>
-      <button *ngIf="!modify" ion-button icon-only clear item-right (click)="moreOptions()">
-        <ion-icon name="more"></ion-icon>
-      </button>
-      <button *ngIf="modify" ion-button icon-only clear item-right (click)="toggleModify()">
-        <ion-icon name="close"></ion-icon>
-      </button>
+      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" min="{{min}}" max="{{max}}"
+        (ionChange)="goToList()"></ion-datetime>
     </ion-item>
   </ion-navbar>
   <ion-toolbar>
@@ -22,26 +17,32 @@
 </ion-header>
 
 <ion-content [ngSwitch]="list">
-  <ion-list *ngSwitchCase="'goals'" class="goals">
+  <ion-list *ngSwitchCase="'goals'">
     <ion-list-header>
       Week of {{beginWeek}} to {{endWeek}}
+      <button ion-button icon-only clear item-right (click)="addCategory()">
+            <ion-icon name="add"></ion-icon>
+      </button>
     </ion-list-header>
     <ion-item-group *ngFor="let category of categories">
       <ion-item-divider>
-        <button *ngIf="modify" ion-button icon-only clear item-left color="danger" (click)="deleteCategory(category)">
-          <ion-icon name="remove-circle"></ion-icon>
+        <ion-label *ngIf="category.name">{{category.name}}</ion-label>
+        <ion-input *ngIf="!category.name" placeholder="New..." (blur)="updateName($event.target.value, category)"></ion-input>
+        <ion-badge item-right *ngIf="category.remaining">{{category.remaining}}</ion-badge>
+        <button ion-button icon-only clear item-right (click)="addItem(category)">
+            <ion-icon name="add"></ion-icon>
         </button>
-        <ion-input item-left value="{{category.name}}" placeholder="New..." [disabled]="category.name ? true : false" (blur)="updateName($event.target.value, category)"></ion-input>
-        <ion-input item-right value="Goal" [disabled]="true"></ion-input>
-        <ion-input item-right value="Actual" [disabled]="true"></ion-input>
+        <button ion-button icon-only clear item-right (click)="removeCategory(category)">
+            <ion-icon name="close"></ion-icon>
+        </button>
       </ion-item-divider>
       <ion-item *ngFor="let item of category.items">
-        <button *ngIf="modify" ion-button icon-only clear item-left color="danger" (click)="deleteItem(category, item)">
-          <ion-icon name="remove-circle"></ion-icon>
-        </button>
-        <ion-input item-left value="{{item.name}}" placeholder="New..." [disabled]="item.name ? true : false" (blur)="updateName($event.target.value, item)"></ion-input>
-        <ion-input item-right value="{{item.goal}}" placeholder="0" [disabled]="item.goal ? true : false" (blur)="updateGoal($event.target.value, item)"></ion-input>
-        <ion-input item-right value="{{item.actual}}" placeholder="0" (blur)="updateActual($event.target.value, item)"></ion-input>
+        <ion-checkbox item-left *ngIf="item.name" checked="{{item.done}}" (ionChange)="toggleItemDone(item, category)"></ion-checkbox>
+        <ion-label *ngIf="item.name">{{item.name}}</ion-label>
+        <ion-input *ngIf="!item.name" placeholder="New..." (blur)="updateName($event.target.value, item)"></ion-input>
+        <button ion-button icon-only clear item-right (click)="removeItem(category, item)">
+            <ion-icon name="close"></ion-icon>
+          </button>
       </ion-item>
     </ion-item-group>
   </ion-list>

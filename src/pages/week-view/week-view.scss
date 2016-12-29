@@ -1,10 +1,4 @@
 page-week-view {
-    ion-header {
-        .item-ios .item-button, .item-md .item-button, .item-wp .item-button {
-            margin-left: 2rem;
-        }
-    }
-
     ion-content {
         .list-header-ios {
             font-size: 1.1rem;
@@ -12,48 +6,6 @@ page-week-view {
 
         .list-header-wp {
             font-size: 1.4rem;
-        }
-
-        .goals {
-            .item:not(.list-header) .item-inner {
-                max-width: 35%;
-                margin-right: 1rem;
-                border-bottom: none;
-
-                [item-right] {
-                    margin-left: 0;
-                    margin-right: 0;
-
-                    .text-input-ios, .text-input-md, .text-input-wp {
-                        font-size: 1.2rem;
-                        padding-right: 0;
-                        text-align: center;
-                        width: 100%;
-                    }
-
-                    .text-input-wp:not([disabled]) {
-                        margin-left: 1.4rem;
-                        text-align: center;
-                        width: 70%;
-                    }
-                }
-            }
-
-            .text-input[disabled] {
-                opacity: 1;
-                text-overflow: ellipsis;
-
-                &.text-input-wp {
-                    border: none;
-                }
-            }
-
-            .text-input-ios[disabled], .text-input-wp[disabled] {
-                margin-right: 0;
-                padding-left: 0;
-                padding-right: 0;
-                width: 100%;
-            }
         }
     }
 }

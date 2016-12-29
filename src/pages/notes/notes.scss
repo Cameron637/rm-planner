@@ -12,5 +12,9 @@ page-notes {
         textarea.text-input-wp {
             max-width: calc(100% - 2rem);
         }
+
+        .add-button ion-reorder {
+            display: none;
+        }
     }
 }
