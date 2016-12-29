@@ -171,6 +171,20 @@ export class WeekViewPage {
     this.modify = !this.modify;
   }
 
+  deleteCategory(category) {
+    this.categories.splice(this.categories.findIndex((element, index, array) => {
+      JSON.stringify(element) === JSON.stringify(category);
+    }), 1);
+    this.updateCategories();
+  }
+
+  deleteItem(category, item) {
+    category.items.splice(category.items.findIndex((element, index, array) => {
+      JSON.stringify(element) === JSON.stringify(item);
+    }), 1);
+    this.updateCategories();
+  }
+
   updateName(name, object) {
     object.name = name;
     this.updateCategories();
