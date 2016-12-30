@@ -1,6 +1,6 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
+  "name": "rm-planner",
+  "author": "Cameron Sanchez",
   "homepage": "http://ionicframework.com/",
   "private": true,
   "version": "0.0.1",
@@ -41,5 +41,5 @@
     "cordova-plugin-splashscreen"
   ],
   "cordovaPlatforms": [],
-  "description": "rm-planner: An Ionic project"
+  "description": "RM Planner: A daily planner."
 }

@@ -1,6 +1,6 @@
 {
-  "name": "RM-Planner",
-  "short_name": "RM-Planner",
+  "name": "rm-planner",
+  "short_name": "rm-planner",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [
