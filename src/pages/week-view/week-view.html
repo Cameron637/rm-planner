@@ -4,7 +4,7 @@
       <ion-title *ngSwitchCase="'goals'">Goals</ion-title>
       <ion-title *ngSwitchCase="'layout'">Weekly Layout</ion-title>
       <ion-label>Date:</ion-label>
-      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" min="{{min}}" max="{{max}}"
+      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" [min]="min" [max]="max"
         (ionChange)="goToList()"></ion-datetime>
     </ion-item>
   </ion-navbar>
@@ -37,7 +37,7 @@
         </button>
       </ion-item-divider>
       <ion-item *ngFor="let item of category.items">
-        <ion-checkbox item-left *ngIf="item.name" checked="{{item.done}}" (ionChange)="toggleItemDone(item, category)"></ion-checkbox>
+        <ion-checkbox item-left *ngIf="item.name" [checked]="item.done" (ionChange)="toggleItemDone(item, category)"></ion-checkbox>
         <ion-label *ngIf="item.name">{{item.name}}</ion-label>
         <ion-input *ngIf="!item.name" placeholder="New..." (blur)="updateName($event.target.value, item)"></ion-input>
         <button ion-button icon-only clear item-right (click)="removeItem(category, item)">
@@ -50,7 +50,7 @@
     <ion-list-header>Week of {{beginWeek}} to {{endWeek}}</ion-list-header>
     <ion-item *ngFor="let day of daysOfWeek">
       <ion-label stacked>{{day.name}}, {{day.date}}</ion-label>
-      <ion-textarea value="{{day.notes}}" (blur)="updateWeekDay($event.target.value, day)"></ion-textarea>
+      <ion-textarea [value]="day.notes" (blur)="updateWeekDay($event.target.value, day)"></ion-textarea>
     </ion-item>
   </ion-list>
 </ion-content>

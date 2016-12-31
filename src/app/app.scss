@@ -44,6 +44,18 @@ ion-header {
             text-align: right;
         }
     }
+
+    .segment-ios, .segment-md, .segment-wp {
+        .button-ios, .button-md, .button-wp {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .button-ios {
+            margin: 0;
+        }
+    }
 }
 
 ion-footer {

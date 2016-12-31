@@ -1,0 +1,7 @@
+<ion-list>
+  <ion-list-header>Presets</ion-list-header>
+  <button ion-item *ngFor="let preset of presets" (click)="close(preset.name)">{{preset.name}}</button>
+  <button ion-item (click)="close('clear')">Clear All</button>
+  <button ion-item color="secondary" (click)="close('new')">Create New Preset</button>
+  <button ion-item color="danger" *ngIf="presets.length" (click)="close('remove')">Remove Preset</button>
+</ion-list>

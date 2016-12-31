@@ -3,13 +3,17 @@
     <ion-item>
       <ion-title>Plans</ion-title>
       <ion-label>Date:</ion-label>
-      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" min="{{min}}" max="{{max}}" (ionChange)="goToList()"></ion-datetime>
+      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" [min]="min" [max]="max"
+        (ionChange)="goToList()"></ion-datetime>
     </ion-item>
   </ion-navbar>
   <ion-toolbar>
     <ion-segment [(ngModel)]="list" (ionChange)="goToList()">
       <ion-segment-button value="daily">Daily Plans</ion-segment-button>
       <ion-segment-button value="backup">Backup Plans</ion-segment-button>
+      <button ion-button icon-only clear (click)="createPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
@@ -17,14 +21,14 @@
 <ion-content [ngSwitch]="list">
   <ion-list *ngSwitchCase="'daily'">
     <ion-item *ngFor="let plan of dailyPlans">
-      <ion-label>{{plan.hour}}</ion-label>
-      <ion-input (blur)="savePlans($event.target.value, plan.key)" value="{{plan.value}}"></ion-input>
+      <ion-label>{{plan.display}}</ion-label>
+      <ion-input (blur)="savePlans($event.target.value, plan)" [value]="plan.value"></ion-input>
     </ion-item>
   </ion-list>
   <ion-list *ngSwitchCase="'backup'">
     <ion-item *ngFor="let plan of backupPlans">
-      <ion-label>{{plan.hour}}</ion-label>
-      <ion-input (blur)="savePlans($event.target.value, plan.key)" value="{{plan.value}}"></ion-input>
+      <ion-label>{{plan.display}}</ion-label>
+      <ion-input (blur)="savePlans($event.target.value, plan)" [value]="plan.value"></ion-input>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -5,13 +5,16 @@ import { MyApp } from "./app.component";
 import { DayViewPage } from "../pages/day-view/day-view";
 import { WeekViewPage } from "../pages/week-view/week-view";
 import { NotesPage } from "../pages/notes/notes";
+import { PopoverComponent } from "../components/popover/popover";
+import { AlertProvider } from "../providers/alert-provider";
 
 @NgModule({
   declarations: [
     MyApp,
     DayViewPage,
     WeekViewPage,
-    NotesPage
+    NotesPage,
+    PopoverComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp, {}, {
@@ -33,9 +36,10 @@ import { NotesPage } from "../pages/notes/notes";
     MyApp,
     DayViewPage,
     WeekViewPage,
-    NotesPage
+    NotesPage,
+    PopoverComponent
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Storage]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Storage, AlertProvider]
 })
 
 export class AppModule { }
