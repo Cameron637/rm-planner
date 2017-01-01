@@ -19,7 +19,7 @@ export class DayViewPage {
   max = moment().add(6, "w").endOf("w").format("YYYY-MM-DD");
   dailyPlans = [];
   backupPlans = [];
-  presets;
+  presets = [];
   weekView = WeekViewPage;
   notesView = NotesPage;
 
@@ -75,18 +75,15 @@ export class DayViewPage {
 
   removeFromPresets(preset) {
     this.presets.splice(this.presets.findIndex(element => element.name === preset), 1);
-
     this.savePresets();
   }
 
   usePreset(preset) {
     let plans = this.list === "daily" ? this.dailyPlans : this.backupPlans;
-
     let presetPlans = this.presets.find(element => element.name === preset) || [];
 
     plans.forEach(plan => {
       let presetPlan = presetPlans.data.find(element => element.hour === plan.hour);
-
       let value;
       presetPlan ? value = presetPlan.value : value = "";
       this.savePlans(value, plan);

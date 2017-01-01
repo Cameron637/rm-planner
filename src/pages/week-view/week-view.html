@@ -12,6 +12,9 @@
     <ion-segment [(ngModel)]="list" (ionChange)="goToList()">
       <ion-segment-button value="goals">Goals</ion-segment-button>
       <ion-segment-button value="layout">Weekly Layout</ion-segment-button>
+      <button ion-button icon-only clear (click)="createPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>

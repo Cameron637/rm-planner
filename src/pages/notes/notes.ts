@@ -1,8 +1,10 @@
 import { Component } from "@angular/core";
 import { Storage } from "@ionic/storage";
-import { NavController, NavParams } from "ionic-angular";
+import { NavController, NavParams, PopoverController } from "ionic-angular";
 import { DayViewPage } from "../day-view/day-view";
 import { WeekViewPage } from "../week-view/week-view";
+import { PopoverComponent } from "../../components/popover/popover";
+import { AlertProvider } from "../../providers/alert-provider";
 import moment from "moment";
 
 @Component({
@@ -19,8 +21,14 @@ export class NotesPage {
   weekView = WeekViewPage;
   notes = "";
   toDoList = [];
+  presets = [];
+  defaultToDoList = [{
+    done: false,
+    name: ""
+  }];
 
-  constructor(public navCtrl: NavController, public params: NavParams, public storage: Storage) {
+  constructor(public navCtrl: NavController, public params: NavParams, public storage: Storage,
+    public popoverCtrl: PopoverController, public alertService: AlertProvider) {
     if (this.list === "notes") {
       this.storage.get(`notes-${this.currentDate}`)
         .then(notes => {
@@ -32,14 +40,13 @@ export class NotesPage {
     if (this.list === "to-do") {
       this.storage.get(`to-do-${this.currentDate}`)
         .then(toDoList => {
-          this.toDoList = toDoList || [{
-            done: false,
-            name: ""
-          }];
+          this.toDoList = toDoList || this.defaultToDoList;
 
           this.saveToDoList();
         });
     }
+
+    this.getPresets();
   }
 
   updateNotes(notes) {
@@ -107,5 +114,95 @@ export class NotesPage {
     }, {
         animate: false
       });
+  }
+
+  getPresets() {
+    this.storage.get(`notes-view-${this.list}`)
+      .then(presets => {
+        this.presets = presets || [];
+      });
+  }
+
+  clearAll() {
+    if (this.list === "notes") {
+      this.notes = "";
+      this.saveNotes();
+    } else {
+      this.toDoList = this.defaultToDoList;
+      this.saveToDoList();
+    }
+  }
+
+  addToPresets(preset) {
+    let data = this.list === "notes" ? this.notes : this.toDoList;
+
+    this.presets.push({
+      name: preset,
+      data: data
+    });
+
+    this.savePresets();
+  }
+
+  removeFromPresets(preset) {
+    this.presets.splice(this.presets.findIndex(element => element.name === preset), 1);
+    this.savePresets();
+  }
+
+  usePreset(preset) {
+    let presetData = this.presets.find(element => element.name === preset);
+    if (this.list === "notes") {
+      this.notes = presetData.data;
+      this.saveNotes();
+    } else {
+      this.toDoList = presetData.data;
+      this.saveToDoList();
+    }
+  }
+
+  savePresets() {
+    this.storage.set(`notes-view-${this.list}`, this.presets);
+  }
+
+  createPopover(event) {
+    let popover = this.popoverCtrl.create(PopoverComponent, {
+      presets: this.presets
+    });
+
+    popover.present({
+      ev: event
+    });
+
+    popover.onDidDismiss(preset => {
+      if (preset) {
+        let alert;
+
+        if (preset === "new") {
+          alert = this.alertService.createPreset(this.presets);
+        } else if (preset === "remove") {
+          alert = this.alertService.removePreset();
+        } else if (preset === "clear") {
+          this.clearAll();
+        } else {
+          this.usePreset(preset);
+        }
+
+        if (alert) {
+          alert.present();
+
+          alert.onDidDismiss(data => {
+            if (data) {
+              data.functions.forEach(functionToCall => {
+                if (functionToCall === "add") {
+                  this.addToPresets(data.preset);
+                } else if (functionToCall === "remove") {
+                  this.removeFromPresets(data.preset);
+                }
+              });
+            }
+          });
+        }
+      }
+    });
   }
 }

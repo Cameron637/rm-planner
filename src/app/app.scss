@@ -15,7 +15,7 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-@media(min-width: 1024px) {
+@media (min-width: 768px) and (min-height: 512px) {
     ion-app.md {
         background-color: #f8f9fb;
     }
@@ -25,10 +25,17 @@
         box-shadow: 0 0.8rem 2.4rem rgba(0,0,0,.08), 0 0rem 0.6rem rgba(0,0,0,.1);
         left: 0;
         margin: auto;
-        max-height: 128rem;
-        max-width: 102.4rem;
+        max-height: 102.4rem;
+        max-width: 76.8rem;
         right: 0;
         top: 0;
+    }
+}
+
+@media (min-width: 1024px) and (min-height: 768px) {
+    .ion-page {
+        max-height: 128rem;
+        max-width: 102.4rem;
     }
 }
 
