@@ -131,6 +131,16 @@ export class WeekViewPage {
       })
   }
 
+  swipeLeft(event) {
+    this.list = "layout";
+    this.goToList();
+  }
+
+  swipeRight(event) {
+    this.list = "goals";
+    this.goToList();
+  }
+
   openPage(page) {
     this.navCtrl.setRoot(page, {
       currentDate: this.currentDate

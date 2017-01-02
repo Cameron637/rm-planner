@@ -31,6 +31,7 @@ export class DayViewPage {
       let plan = {
         hour: i < 3 ? hour.add(1, "h").format("h:mm a") : hour.add(30, "m").format("h:mm a"),
         display: hour.format("h:mm"),
+        done: false,
         key: `${this.list}-${this.currentDate}-${hour.format("h:mm-a")}`,
         value: ""
       };
@@ -47,8 +48,13 @@ export class DayViewPage {
 
     plansList.forEach(plan => {
       this.storage.get(plan.key)
-        .then(value => {
-          plan.value = value;
+        .then(savedPlan => {
+          if (savedPlan) {
+            console.log(savedPlan);
+            plan.value = savedPlan.value;
+            plan.done = savedPlan.done;
+            console.log(plan);
+          }
         });
     });
   }
@@ -66,7 +72,7 @@ export class DayViewPage {
     this.presets.push({
       name: preset,
       data: plans.map(plan => {
-        return { hour: plan.hour, value: plan.value };
+        return { hour: plan.hour, value: plan.value, done: plan.done };
       })
     });
 
@@ -84,9 +90,16 @@ export class DayViewPage {
 
     plans.forEach(plan => {
       let presetPlan = presetPlans.data.find(element => element.hour === plan.hour);
-      let value;
-      presetPlan ? value = presetPlan.value : value = "";
-      this.savePlans(value, plan);
+
+      if (presetPlan) {
+        plan.value = presetPlan.value;
+        plan.done = presetPlan.done;
+        this.savePlans(plan);
+      } else {
+        plan.value = "";
+        plan.done = false;
+        this.savePlans(plan);
+      }
     });
   }
 
@@ -94,7 +107,9 @@ export class DayViewPage {
     let plans = this.list === "daily" ? this.dailyPlans : this.backupPlans;
 
     plans.forEach(plan => {
-      this.savePlans("", plan);
+      plan.value = "";
+      plan.done = false;
+      this.savePlans(plan);
     });
   }
 
@@ -102,9 +117,18 @@ export class DayViewPage {
     this.storage.set("day-view-presets", this.presets);
   }
 
-  savePlans(value, plan) {
+  togglePlanDone(plan) {
+    plan.done = !plan.done;
+    this.savePlans(plan);
+  }
+
+  updateValue(value, plan) {
     plan.value = value;
-    this.storage.set(plan.key, plan.value);
+    this.savePlans(plan);
+  }
+
+  savePlans(plan) {
+    this.storage.set(plan.key, plan);
   }
 
   createPopover(event) {
@@ -164,5 +188,15 @@ export class DayViewPage {
     }, {
         animate: false
       });
+  }
+
+  swipeLeft(event) {
+    this.list = "backup";
+    this.goToList();
+  }
+
+  swipeRight(event) {
+    this.list = "daily";
+    this.goToList();
   }
 }

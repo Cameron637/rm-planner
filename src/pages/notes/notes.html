@@ -20,8 +20,8 @@
 </ion-header>
 
 <ion-content [ngSwitch]="list">
-  <ion-textarea *ngSwitchCase="'notes'" [value]="notes" (blur)="updateNotes($event.target.value)"></ion-textarea>
-  <ion-list *ngSwitchCase="'to-do'" reorder="true" (ionItemReorder)="reorderItems($event)">
+  <ion-textarea *ngSwitchCase="'notes'" [value]="notes" (blur)="updateNotes($event.target.value)" (swipeleft)="swipeLeft()"></ion-textarea>
+  <ion-list *ngSwitchCase="'to-do'" reorder="true" (ionItemReorder)="reorderItems($event)" (swiperight)="swipeRight()">
     <ion-item *ngFor="let item of toDoList">
       <ion-checkbox item-left *ngIf="item.name" [checked]="item.done" (ionChange)="toggleItemDone(item)"></ion-checkbox>
       <ion-label *ngIf="item.name">{{item.name}}</ion-label>

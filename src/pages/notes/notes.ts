@@ -116,6 +116,16 @@ export class NotesPage {
       });
   }
 
+  swipeLeft(event) {
+    this.list = "to-do";
+    this.goToList();
+  }
+
+  swipeRight(event) {
+    this.list = "notes";
+    this.goToList();
+  }
+
   getPresets() {
     this.storage.get(`notes-view-${this.list}`)
       .then(presets => {

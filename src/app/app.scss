@@ -65,6 +65,12 @@ ion-header {
     }
 }
 
+ion-content {
+    .list-ios, .list-md, .list-wp {
+        min-height: 100vh;
+    }
+}
+
 ion-footer {
     display: flex;
     justify-content: space-around;

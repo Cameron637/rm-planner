@@ -20,7 +20,7 @@
 </ion-header>
 
 <ion-content [ngSwitch]="list">
-  <ion-list *ngSwitchCase="'goals'">
+  <ion-list *ngSwitchCase="'goals'" (swipeleft)="swipeLeft()">
     <ion-list-header>
       Week of {{beginWeek}} to {{endWeek}}
       <button ion-button icon-only clear item-right (click)="addCategory()">
@@ -49,7 +49,7 @@
       </ion-item>
     </ion-item-group>
   </ion-list>
-  <ion-list *ngSwitchCase="'layout'">
+  <ion-list *ngSwitchCase="'layout'" (swiperight)="swipeRight()">
     <ion-list-header>Week of {{beginWeek}} to {{endWeek}}</ion-list-header>
     <ion-item *ngFor="let day of daysOfWeek">
       <ion-label stacked>{{day.name}}, {{day.date}}</ion-label>

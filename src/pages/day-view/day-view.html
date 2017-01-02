@@ -19,16 +19,18 @@
 </ion-header>
 
 <ion-content [ngSwitch]="list">
-  <ion-list *ngSwitchCase="'daily'">
+  <ion-list *ngSwitchCase="'daily'" (swipeleft)="swipeLeft()">
     <ion-item *ngFor="let plan of dailyPlans">
       <ion-label>{{plan.display}}</ion-label>
-      <ion-input (blur)="savePlans($event.target.value, plan)" [value]="plan.value"></ion-input>
+      <ion-input (blur)="updateValue($event.target.value, plan)" [value]="plan.value"></ion-input>
+      <ion-checkbox item-right *ngIf="plan.value" [checked]="plan.done" (ionChange)="togglePlanDone(plan)"></ion-checkbox>
     </ion-item>
   </ion-list>
-  <ion-list *ngSwitchCase="'backup'">
+  <ion-list *ngSwitchCase="'backup'" (swiperight)="swipeRight()">
     <ion-item *ngFor="let plan of backupPlans">
       <ion-label>{{plan.display}}</ion-label>
-      <ion-input (blur)="savePlans($event.target.value, plan)" [value]="plan.value"></ion-input>
+      <ion-input (blur)="updateValue($event.target.value, plan)" [value]="plan.value"></ion-input>
+      <ion-checkbox item-right *ngIf="plan.value" [checked]="plan.done" (ionChange)="togglePlanDone(plan)"></ion-checkbox>
     </ion-item>
   </ion-list>
 </ion-content>
