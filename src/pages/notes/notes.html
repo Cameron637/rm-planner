@@ -4,8 +4,7 @@
       <ion-title *ngSwitchCase="'notes'">Notes</ion-title>
       <ion-title *ngSwitchCase="'to-do'">To-Do List</ion-title>
       <ion-label>Date:</ion-label>
-      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" [min]="min" [max]="max"
-        (ionChange)="goToList()"></ion-datetime>
+      <ion-datetime displayFormat="DDDD, MMM. D, YYYY" pickerFormat="MMMM DD YYYY" [(ngModel)]="currentDate" [max]="max" (ionChange)="goToList()"></ion-datetime>
     </ion-item>
   </ion-navbar>
   <ion-toolbar>

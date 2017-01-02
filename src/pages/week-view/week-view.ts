@@ -15,8 +15,7 @@ import moment from "moment";
 export class WeekViewPage {
   currentDate = this.params.get("currentDate") || /\d{4}-(1[0-2]|0[1-9])-([0-2][[1-9]|3[0-1])/.exec(location.hash) || moment().format("YYYY-MM-DD");
   list = this.params.get("list") || /(goals|layout)/.exec(location.hash) || "goals";
-  min = moment().subtract(6, "w").startOf("w").format("YYYY-MM-DD");
-  max = moment().add(6, "w").endOf("w").format("YYYY-MM-DD");
+  max = moment().add(100, "y").format("YYYY");
   beginWeek = moment(this.currentDate, "YYYY-MM-DD").startOf("w").format("MMM. D, YYYY");
   endWeek = moment(this.currentDate, "YYYY-MM-DD").endOf("w").format("MMM. D, YYYY");
   storageId = this.beginWeek.replace(/(\. |, | )/g, "-").toLowerCase();

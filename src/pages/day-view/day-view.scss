@@ -17,9 +17,7 @@ page-day-view {
                 }
 
                 .checkbox-ios, .checkbox-md, .checkbox-wp {
-                    button {
-                        max-width: 2rem;
-                    }
+                    position: relative;
                 }
             }
         }
