@@ -12,8 +12,13 @@ page-day-view {
                     width: 5.5rem;
                 }
 
-                .input-ios, .input-md {
-                    border-left: 0.1rem solid #dedede;
+                .input-ios {
+                    border-left: $hairlines-width solid $list-ios-border-color;
+                    height: 100%;
+                }
+
+                .input-md {
+                    border-left: 0.1rem solid $list-md-border-color;
                 }
 
                 .checkbox-ios, .checkbox-md, .checkbox-wp {
