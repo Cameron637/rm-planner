@@ -49,10 +49,8 @@ export class DayViewPage {
       this.storage.get(plan.key)
         .then(savedPlan => {
           if (savedPlan) {
-            console.log(savedPlan);
             plan.value = savedPlan.value;
             plan.done = savedPlan.done;
-            console.log(plan);
           }
         });
     });
