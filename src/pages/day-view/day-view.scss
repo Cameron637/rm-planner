@@ -26,5 +26,9 @@ page-day-view {
                 }
             }
         }
+
+        .item-ios .item-inner {
+            border-bottom: $hairlines-width solid $list-ios-border-color;
+        }
     }
 }
