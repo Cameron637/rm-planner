@@ -68,6 +68,10 @@ ion-header {
 ion-content {
     .list-ios, .list-md, .list-wp {
         min-height: 100vh;
+
+        .item-block.item-ios .item-inner {
+            border-bottom-width: 0.1rem;
+        }
     }
 }
 
