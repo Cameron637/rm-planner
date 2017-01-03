@@ -13,7 +13,7 @@ page-day-view {
                 }
 
                 .input-ios {
-                    border-left: $hairlines-width solid $list-ios-border-color;
+                    border-left: 0.1rem solid $list-ios-border-color;
                     height: 100%;
                 }
 
@@ -28,7 +28,7 @@ page-day-view {
         }
 
         .item-ios .item-inner {
-            border-bottom: $hairlines-width solid $list-ios-border-color;
+            border-bottom-width: 0.1rem;
         }
     }
 }
