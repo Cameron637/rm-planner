@@ -2,6 +2,7 @@ page-day-view {
     ion-content {
         .list-ios, .list-md, .list-wp {
             margin-bottom: 0;
+            min-height: initial;
 
             .item-ios, .item-md, .item-wp {
                 padding-left: 0;
