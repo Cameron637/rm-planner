@@ -65,7 +65,7 @@
     <splash src="resources\ios\splash\Default~iphone.png" width="320" height="480"/>
   </platform>
   <platform name="browser">
-    <preference name="SplashScreen" value="assets/imgs/notebook-192.png"/>
+    <preference name="SplashScreen" value="assets/imgs/logo.png" />
     <preference name="SplashScreenBackgroundColor" value="#f8f9fb"/>
   </platform>
   <preference name="webviewbounce" value="false"/>
