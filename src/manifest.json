@@ -5,28 +5,13 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "assets/imgs/notebook-256.png",
-      "sizes": "256x353",
+      "src": "assets/imgs/notebook-144.png",
+      "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "assets/imgs/notebook-512.png",
-      "sizes": "512x706",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/imgs/notebook-768.png",
-      "sizes": "768x1059",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/imgs/notebook-1024.png",
-      "sizes": "1024x1412",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/imgs/notebook-1280.png",
-      "sizes": "1280x1765",
+      "src": "assets/imgs/notebook-192.png",
+      "sizes": "192x192",
       "type": "image/png"
     }
   ],
