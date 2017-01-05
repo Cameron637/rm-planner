@@ -21,13 +21,13 @@ export class MyApp {
   }
 
   initializeApp() {
-    let hundredYearsAgo = moment().subtract(100, "y").startOf("y").format("YYYY-MM-DD");
-    let hundredYearsFromNow = moment().add(100, "y").startOf("y").format("YYYY-MM-DD");
+    let sixWeeksAgo = moment().subtract(6, "w").startOf("w").format("YYYY-MM-DD");
+    let sixWeeksFromNow = moment().add(6, "w").endOf("w").format("YYYY-MM-DD");
 
     this.storage.forEach((value, key, i) => {
       let keyDate = moment(/\d{4}-(1[0-2]|0[1-9])-([0-2][[1-9]|3[0-1])/.exec(key));
 
-      if (keyDate.isBefore(hundredYearsAgo) || keyDate.isAfter(hundredYearsFromNow)) {
+      if (keyDate.isBefore(sixWeeksAgo) || keyDate.isAfter(sixWeeksFromNow)) {
         this.storage.remove(key);
       }
     });
